@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /identity
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/SD20205?useSSL=false&serverTimezone=UTC"
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    username: root
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  signerKey: "iFmZsoXsVNPZfC+SqJ+B5esbt9PWchEqB8/Fn/qG26GPwvCY2m6loFrPETLRCeqh"
+  valid-duration: 3600 # in second
+  refreshable-duration: 360000 # in seconds
