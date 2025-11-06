@@ -31,16 +31,26 @@ public class ApplicationInitConfig {
     String admin = "admin";
 
     @Bean
-    @ConditionalOnProperty(
-            prefix = "spring",
-            value = "datasource.driverClassName",
-            havingValue = "com.mysql.cj.jdbc.Driver")
+//    @ConditionalOnProperty(
+//            prefix = "spring",
+//            value = "datasource.driverClassName",
+//            havingValue = "com.mysql.cj.jdbc.Driver")
     ApplicationRunner applicationRunner(UserRepository userRepository) {
         log.info("Init application......");
         return args -> {
             if (userRepository.findByUsername(admin).isEmpty()) {
+                roleRepository.save(Role.builder()
+                        .name(PredefinedRole.USER_ROLE)
+                        .description("User role")
+                        .build());
+
+                Role adminRole = roleRepository.save(Role.builder()
+                        .name(PredefinedRole.ADMIN_ROLE)
+                        .description("Admin role")
+                        .build());
+
                 var roles = new HashSet<Role>();
-                roleRepository.findById(PredefinedRole.ADMIN_ROLE).ifPresent(roles::add);
+                roles.add(adminRole);
                 User user = User.builder()
                         .username(admin)
                         .password(passwordEncoder.encode(admin))
@@ -50,6 +60,7 @@ public class ApplicationInitConfig {
                 userRepository.save(user);
                 log.warn("admin user has been created with default password: admin, please change it.");
             }
+            log.info("Application initialization completed .....");
         };
     }
 }

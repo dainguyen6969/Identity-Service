@@ -3,6 +3,9 @@ package com.devteria.identityservice.service;
 import java.util.HashSet;
 import java.util.List;
 
+import com.devteria.identityservice.constant.PredefinedRole;
+import com.devteria.identityservice.entity.Role;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +16,6 @@ import com.devteria.identityservice.dto.request.UserCreationRequest;
 import com.devteria.identityservice.dto.request.UserUpdateRequest;
 import com.devteria.identityservice.dto.response.UserResponse;
 import com.devteria.identityservice.entity.User;
-import com.devteria.identityservice.enums.Role;
 import com.devteria.identityservice.exception.AppException;
 import com.devteria.identityservice.exception.ErrorCode;
 import com.devteria.identityservice.mapper.UserMapper;
@@ -39,31 +41,20 @@ public class UserService {
     public UserResponse createUser(UserCreationRequest request) {
         log.info("Service: Create User");
 
-        //        if(userRepository.existsByUsername(request.getUsername())) {
-        if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
-        //            //Su dung voi RuntimeException
-        ////            throw new RuntimeException("ErrorCode.USER_EXISTED");
-        //        }
-
-        //        HashSet<Role> roles = new HashSet<>();
-        //        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
-
-        //        try {
-        //            userRepository.save(user);
-        //        } catch (DataIntegrityViolationException exception) {
-        //            throw new AppException(ErrorCode.USER_EXISTED);
-        //        }
-
-        //        return userMapper.toUserResponse(user);
-
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        //        user.setRoles(roles);
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.USER_ROLE).ifPresent(roles::add);
 
-        return userMapper.toUserResponse(userRepository.save(user));
+        user.setRoles(roles);
+
+        try {
+            user = userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        return userMapper.toUserResponse(user);
     }
 
     public UserResponse getMyInfo() {
