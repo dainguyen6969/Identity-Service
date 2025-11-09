@@ -90,7 +90,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.setMaxAge(3600L);
+        //        corsConfiguration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);

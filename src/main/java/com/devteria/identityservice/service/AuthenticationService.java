@@ -48,7 +48,7 @@ public class AuthenticationService {
     @NonFinal
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
-//    protected String SIGNER_KEY = "iFmZsoXsVNPZfC+SqJ+B5esbt9PWchEqB8/Fn/qG26GPwvCY2m6loFrPETLRCeqh";
+    //    protected String SIGNER_KEY = "iFmZsoXsVNPZfC+SqJ+B5esbt9PWchEqB8/Fn/qG26GPwvCY2m6loFrPETLRCeqh";
 
     @NonFinal
     @Value("${jwt.valid-duration}")
