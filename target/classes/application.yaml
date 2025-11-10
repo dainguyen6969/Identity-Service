@@ -5,10 +5,10 @@ server:
 
 spring:
   datasource:
-    url: ${DBMS_CONNECTION:jdbc:mysql://localhost:3306/Identity_Service?useSSL=false&serverTimezone=UTC}
+    url: ${DBMS_CONNECTION:jdbc:mysql://mysql-container:3306/Identity_Service?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
     driver-class-name: "com.mysql.cj.jdbc.Driver"
     username: ${DBMS_USERNAME:root}
-    password: ${DBMS_PASSWORD:}
+    password: ${DBMS_PASSWORD:123456}
 
   jpa:
     hibernate:

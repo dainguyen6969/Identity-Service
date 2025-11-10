@@ -90,7 +90,7 @@ public class SecurityConfig {
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedHeader("*");
-//        corsConfiguration.setMaxAge(3600L);
+        //        corsConfiguration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
         urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
@@ -98,27 +98,4 @@ public class SecurityConfig {
         log.info(corsConfiguration.toString());
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }
-
-    //    @Bean
-    //    public CorsConfigurationSource corsConfigurationSource() {
-    //        CorsConfiguration config = new CorsConfiguration();
-    //
-    //        // Địa chỉ frontend được phép gọi
-    //        config.setAllowedOrigins(List.of("http://localhost:3001"));
-    //
-    //        // Phương thức được phép
-    //        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    //
-    //        // Header được phép
-    //        config.setAllowedHeaders(List.of("*"));
-    //
-    //        // Cho phép gửi cookie/token
-    //        config.setAllowCredentials(true);
-    //
-    //        // Áp dụng cho tất cả endpoint
-    //        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    //        source.registerCorsConfiguration("/**", config);
-    //
-    //        return source;
-    //    }
 }
